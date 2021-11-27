@@ -8,7 +8,7 @@ def main():
     drawing_data = pattern1
     kame = Kame()
     ls = Lsystem(drawing_data.Omega, drawing_data.P)
-    artist = Artist(drawing_data.DrawFuncs)
+    artist = Artist(kame, drawing_data.DrawFuncs)
 
     ls.derive(drawing_data.Round)
     artist.move_kame(kame, ls.state)

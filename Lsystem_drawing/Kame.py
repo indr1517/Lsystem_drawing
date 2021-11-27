@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 
 
 class Kame:
+    """位置と向きを持って移動するエージェントを使って作図する。また図をpng形式で保存する"""
     def __init__(self):
         self.pos = (0.0, 0.0)
         self.head = 0.0
