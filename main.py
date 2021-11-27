@@ -1,3 +1,6 @@
+import math
+from PIL import Image, ImageDraw
+
 from Lsystem_drawing.Artist import Artist
 from Lsystem_drawing.Kame import Kame
 from drawing_source import pattern1
@@ -11,7 +14,7 @@ def main():
     artist = Artist(kame, drawing_data.DrawFuncs)
 
     ls.derive(drawing_data.Round)
-    artist.move_kame(kame, ls.state)
+    artist.move_kame(ls.state)
     kame.draw()
     kame.save("pictures/img.png")
 
