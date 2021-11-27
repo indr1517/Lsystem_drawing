@@ -5,11 +5,11 @@ from PIL import Image, ImageDraw
 
 class Kame:
     """位置と向きを持って移動するエージェントを使って作図する。また図をpng形式で保存する"""
-    def __init__(self):
+    def __init__(self,canvas_size=1000):
         self.pos = (0.0, 0.0)
         self.head = 0.0
         self.line_list = []
-        self.canvas_size = (1000, 1000)
+        self.canvas_size = (canvas_size, canvas_size)
         self.line_color = (0, 0, 0)
         self.bg_color = (255, 255, 255)
 

@@ -1,14 +1,14 @@
-Omega = "alalalalalalalalal"
+Omega = "alalal"
 
 P = {
     "a": "lararararal",
 }
 
 DrawFuncs = {
-    "a": "f1000",
-    "r": "r140",
-    "l": "l40",
+    "a": "f500",
+    "r": "r108",
+    "l": "l72",
 }
 
-Round = 4
+Round = 6
 

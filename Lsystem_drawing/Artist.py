@@ -8,6 +8,9 @@ class Artist:
         self.kame = kame
         self.funcs = {}
 
+    def set_kame(self,kame):
+        self.kame = kame
+
     def process_f(self, arg):
         self.kame.forward(arg)
 
@@ -35,3 +38,13 @@ class Artist:
 
 class DrawFuncsError(Exception):
     pass
+
+class Artist_rad(Artist):
+    def __init__(self, kame, func_dict):
+        super().__init__(kame, func_dict)
+
+    def process_r(self, arg):
+        self.kame.right(arg)
+
+    def process_l(self, arg):
+        self.kame.left(arg)
