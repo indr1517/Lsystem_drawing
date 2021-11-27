@@ -1,0 +1,10 @@
+# Lsystem_drawing
+
+drawing_sourceディレクトリ内のファイルをもとに作図する。pattern1.pyはそのサンプル。 
+これらdrawing_dataファイルは必ずOmega,P,DrawFuncs,Roundの4つの変数を持ち、
+DrawfuncsはOmegaとPに登場する任意の記号をキーとして持ち、
+DrawFuncsの値は"f","r","l"+整数（または少数）でなければならない。
+Lsystemはdrawing_dataファイルに指定されたように文を生成する。
+Artistはこの文とやはりdrawing_dataファイルに指定されるようにKameの動きを制御する。
+KameのdrawメソッドでKameの動きを画像化して、saveメソッドで保存する。
+Kame.set_bg_colorとKame.set_line_colorで背景色と色を変更できる。
