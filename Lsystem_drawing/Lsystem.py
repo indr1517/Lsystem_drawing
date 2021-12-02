@@ -1,6 +1,7 @@
 class Lsystem:
     def __init__(self, Omega, P):
         self.v = set(Omega + "".join(P.values()))
+        self.Omega = Omega
         self.state = Omega
         self.P = P
         self.production = str.maketrans(P)
@@ -10,8 +11,14 @@ class Lsystem:
             self.state = self.state.translate(self.production)
 
     def set_Omega(self,sentence):
+        self.Omega = sentence
         self.state = sentence
 
     def set_production(self,k,v):
         self.P[k] = v
         self.production = str.maketrans(self.P)
+
+    def pop_state(self):
+        a = self.state
+        self.state = self.Omega
+        return a

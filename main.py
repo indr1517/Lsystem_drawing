@@ -5,51 +5,90 @@ from Lsystem_drawing.Artist import Artist,Artist_rad
 from Lsystem_drawing.Kame import Kame
 from drawing_source import pattern1
 from Lsystem_drawing.Lsystem import Lsystem
+from Integrator import Integrator
 
+"""
+Lsystemによる文の生成/条件の設定
+文解釈の設定
+描画/描画設定（色、線の太さ、画像サイズ）
+PNG出力
+画像の結合
 
+開始記号、生成規則、ラウンド数
+↓
+文
+↓　　←記号の解釈
+線の集合
+↓　　←背景、線の色、太さ、画素数、（縦横比、中心の位置、線のピクセル長さ）
+Pillow Imageオブジェクト
+↓　　←結合（しない、一次元縦横、二次元）
+PNGファイル
+"""
+def main2():
+    drawing_data = pattern1
+    integ = Integrator(drawing_data=drawing_data)
+    integ.draw()
+    integ.save("pictures/integ_test.png")
 def main():
     drawing_data = pattern1
     kame = Kame(canvas_size=500)
+    kame.set_bg_color((0,0,0))
+    kame.set_line_color((255,255,255))
     ls = Lsystem(drawing_data.Omega, drawing_data.P)
     artist = Artist_rad(kame, drawing_data.DrawFuncs)
-    ims = []
-    for angle in range(3,13):
-        ims2 = []
-        for round in range(7):
-            ls.set_Omega("al"*angle)
+
+    imgs = []
+    for round in range(21):
+        ls.derive(round)
+
+        artist.move_kame(ls.pop_state())
+
+        kame.draw()
+        imgs.append(kame.pop_image())
+    connect(imgs).save("pictures/imgmat1.png")
+
+def main_iter():
+    drawing_data = pattern1
+    kame = Kame(canvas_size=500)
+    kame.set_line_color((255, 255, 255))
+    kame.set_bg_color((0, 0, 0))
+    ls = Lsystem(drawing_data.Omega, drawing_data.P)
+    artist = Artist_rad(kame, drawing_data.DrawFuncs)
+
+    imgs = [[] for _ in range(3, 16)]
+    for angle in range(3, 16):
+        for round in range(8):
             ls.derive(round)
 
-            artist.func_dict["r"] = ("r", math.pi*(1-2/angle))
-            artist.func_dict["l"] = ("l", math.pi*(2/angle))
+            artist.func_dict["r"] = ("r", math.pi * (1 - 2 / angle))
+            artist.func_dict["l"] = ("l", math.pi * (2 / angle))
 
-            artist.move_kame(ls.state)
-            kame.draw(show=False)
-            ims2.append(kame.image)
-            # kame.save(f"pictures/img{round}.png")
+            artist.move_kame(ls.pop_state())
+            kame.draw()
 
-            kame.__init__(canvas_size=500)
-            # ls.set_Omega(drawing_data.Omega)
-            artist.set_kame(kame)
-        ims.append(connect(*ims2))
-    connect_vert(*ims).save("pictures/img_merge.png")
+            imgs[angle - 3].append(kame.pop_image())
+    connect_mat(imgs).save("pictures/imgmat1.png")
 
-def connect(*ims):
+
+def connect(ims):
     dst = Image.new("RGB",(sum([im.width for im in ims]),ims[0].height))
     dst.paste(ims[0],(0,0))
     for i,im in enumerate(ims[1:]):
-        dst.paste(im,(sum([im.width for im in ims[:i+1]]),0))
+        dst.paste(im,(sum([im2.width for im2 in ims[:i+1]]),0))
 
     return dst
 
-def connect_vert(*ims):
+def connect_vert(ims):
     dst = Image.new("RGB", (ims[0].width,sum([im.height for im in ims])))
     dst.paste(ims[0], (0, 0))
     for i, im in enumerate(ims[1:]):
-        dst.paste(im, (0, sum([im.height for im in ims[:i + 1]])))
+        dst.paste(im, (0, sum([im2.height for im2 in ims[:i + 1]])))
 
     return dst
 
+def connect_mat(ims):
+    return connect_vert([connect(ims_line) for ims_line in ims])
 
 
 if __name__ == '__main__':
-    main()
+    main2()

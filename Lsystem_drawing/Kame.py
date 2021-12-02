@@ -1,6 +1,7 @@
 import math
 
 from PIL import Image, ImageDraw
+# import copy
 
 
 class Kame:
@@ -30,9 +31,17 @@ class Kame:
 
     def set_bg_color(self, color):
         self.bg_color = color
+        self.draw_.rectangle((0,0,self.canvas_size[0],self.canvas_size[1]),fill=self.bg_color)
+        # self.image = Image.new("RGB", self.canvas_size, self.bg_color)
+        # self.draw_ = ImageDraw.Draw(self.image)
 
     def set_line_color(self, color):
         self.line_color = color
+
+    def set_canvas_size(self,size):
+        self.canvas_size = size
+        self.image = Image.new("RGB", self.canvas_size, self.bg_color)
+        self.draw_ = ImageDraw.Draw(self.image)
 
     def round_point(self, point, digit=0):
         if digit is None:
@@ -73,8 +82,9 @@ class Kame:
             for line in self.line_list
         ]
 
-    def draw(self, show=True):
-        self.resize()
+    def draw(self, show=False):
+        if len(self.line_list) != 0:
+            self.resize()
 
         for line in self.get_line_set():
             self.draw_.line(line, fill=self.line_color)
@@ -83,3 +93,16 @@ class Kame:
 
     def save(self, filename):
         self.image.save(filename, quality=95)
+
+    def reset(self):
+        self.pos = (0.0, 0.0)
+        self.head = 0.0
+        self.line_list = []
+
+        self.image = Image.new("RGB", self.canvas_size, self.bg_color)
+        self.draw_ = ImageDraw.Draw(self.image)
+
+    def pop_image(self):
+        img = self.image.copy()
+        self.reset()
+        return img

@@ -1,11 +1,13 @@
-Omega = "alalal"
+Omega = "a"
 
 P = {
-    "a": "lararararal",
+    "a": "b",
+    "b": "ab"
 }
 
 DrawFuncs = {
     "a": "f500",
+    "b": "r30" ,
     "r": "r108",
     "l": "l72",
 }
