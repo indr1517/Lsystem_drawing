@@ -22,7 +22,6 @@ def connect_mat(ims):
     return connect_vert([connect(ims_line) for ims_line in ims])
 
 def save_img_list(ims,filename,mode="v"):
-    """未デバッグ"""
     if mode=="v":
         width = ims[0].width
         height = sum([im.height for im in ims])
