@@ -1,3 +1,5 @@
+from PIL import Image, ImageDraw
+
 def connect(ims):
     dst = Image.new("RGB",(sum([im.width for im in ims]),ims[0].height))
     dst.paste(ims[0],(0,0))
@@ -42,9 +44,9 @@ def save_img_list(ims,filename,mode="v"):
     else:
         for y,line in enumerate(ims):
             for x,im in enumerate(line):
-                x = sum([im2.width for im2 in line[:x-1]])
-                y = sum([im2.height for im2 in line[:y-1]])
-                dst.paste(im, (x, y))
+                px = sum([im2.width for im2 in line[:x]])
+                py = sum([line[0].height for line in ims[:y]])
+                dst.paste(im, (px, py))
     dst.save(filename)
 
 class ModeError(Exception):

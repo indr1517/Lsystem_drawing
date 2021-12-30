@@ -3,14 +3,22 @@ from Lsystem_drawing.Kame import Kame
 from Lsystem_drawing.Lsystem import Lsystem
 
 class Integrator:
-    def __init__(self,drawing_data,bg_color=(255,255,255),line_color=(0,0,0),size=500,angle_mode="d"):
+    def __init__(self,
+                 Omega,
+                 P,
+                 DrawFuncs,
+                 Round,
+                 bg_color=(255,255,255),
+                 line_color=(0,0,0),
+                 size=500,
+                 angle_mode="d"):
         self.kame = Kame(canvas_size=size)
         self.kame.set_bg_color(bg_color)
         self.kame.set_line_color(line_color)
 
-        self.ls = Lsystem(drawing_data.Omega, drawing_data.P)
-        self.artist = Artist(self.kame, drawing_data.DrawFuncs,angle_mode=angle_mode)
-        self.round = drawing_data.Round
+        self.ls = Lsystem(Omega, P)
+        self.artist = Artist(self.kame, DrawFuncs,angle_mode=angle_mode)
+        self.round = Round
 
     def draw(self,show=False,initialize=False):
         if initialize:

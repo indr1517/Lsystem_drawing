@@ -27,12 +27,6 @@ PNGファイル
 
 初期化して描画
 """
-def main2():
-    drawing_data = pattern1
-    integ = Integrator(drawing_data=drawing_data)
-    integ.draw()
-    integ.save("pictures/integ_test.png")
-
 
 def main():
     integ = Integrator(drawing_data=pattern1)
