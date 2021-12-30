@@ -20,6 +20,7 @@ def connect_mat(ims):
     return connect_vert([connect(ims_line) for ims_line in ims])
 
 def save_img_list(ims,filename,mode="v"):
+    """未デバッグ"""
     if mode=="v":
         width = ims[0].width
         height = sum([im.height for im in ims])
@@ -42,6 +43,9 @@ def save_img_list(ims,filename,mode="v"):
         for y,line in enumerate(ims):
             for x,im in enumerate(line):
                 x = sum([im2.width for im2 in line[:x-1]])
+                y = sum([im2.height for im2 in line[:y-1]])
+                dst.paste(im, (x, y))
+    dst.save(filename)
 
 class ModeError(Exception):
     pass
