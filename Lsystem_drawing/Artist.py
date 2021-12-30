@@ -3,10 +3,24 @@ import math
 
 class Artist:
     """drawing_dataを解読してカメを操作する"""
-    def __init__(self, kame, func_dict):
-        self.func_dict = {i: (j[0], float(j[1:])) for i, j in func_dict.items()}
+    def __init__(self, kame, func_dict,angle_mode="d"):
+        self.func_dict = func_dict
         self.kame = kame
-        self.funcs = {}
+        self.angle_mode = angle_mode
+
+    def process_r(self, arg):
+        if self.angle_mode == "d":
+            self.kame.right(math.radians(arg))
+        else:
+            self.kame.right(arg)
+
+
+    def process_l(self, arg):
+        if self.angle_mode == "d":
+            self.kame.left(math.radians(arg))
+        else:
+            self.kame.left(arg)
+
 
     def set_kame(self,kame):
         self.kame = kame
@@ -14,11 +28,9 @@ class Artist:
     def process_f(self, arg):
         self.kame.forward(arg)
 
-    def process_r(self, arg):
-        self.kame.right(math.radians(arg))
+    def set_angle_mode(self,angle_mode):
+        self.angle_mode = angle_mode
 
-    def process_l(self, arg):
-        self.kame.left(math.radians(arg))
 
     def move_kame(self, sentence):
         for c in sentence:
@@ -33,18 +45,8 @@ class Artist:
             elif func_[0] == "l":
                 self.process_l(func_[1])
             else:
-                raise DrawFuncsError("無効な処理：" + func_[0] + func_[1])
+                raise DrawFuncsError("無効な処理：" + func_[0] + str(func_[1]))
 
 
 class DrawFuncsError(Exception):
     pass
-
-class Artist_rad(Artist):
-    def __init__(self, kame, func_dict):
-        super().__init__(kame, func_dict)
-
-    def process_r(self, arg):
-        self.kame.right(arg)
-
-    def process_l(self, arg):
-        self.kame.left(arg)

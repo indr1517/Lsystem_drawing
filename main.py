@@ -1,11 +1,11 @@
 import math
 from PIL import Image, ImageDraw
 
-from Lsystem_drawing.Artist import Artist,Artist_rad
+from Lsystem_drawing.Artist import Artist
 from Lsystem_drawing.Kame import Kame
 from drawing_source import pattern1
 from Lsystem_drawing.Lsystem import Lsystem
-from Integrator import Integrator
+from Lsystem_drawing.Integrator import Integrator
 
 """
 Lsystemによる文の生成/条件の設定
@@ -23,29 +23,28 @@ PNG出力
 Pillow Imageオブジェクト
 ↓　　←結合（しない、一次元縦横、二次元）
 PNGファイル
+
+
+初期化して描画
 """
 def main2():
     drawing_data = pattern1
     integ = Integrator(drawing_data=drawing_data)
     integ.draw()
     integ.save("pictures/integ_test.png")
+
+
 def main():
-    drawing_data = pattern1
-    kame = Kame(canvas_size=500)
-    kame.set_bg_color((0,0,0))
-    kame.set_line_color((255,255,255))
-    ls = Lsystem(drawing_data.Omega, drawing_data.P)
-    artist = Artist_rad(kame, drawing_data.DrawFuncs)
+    integ = Integrator(drawing_data=pattern1)
 
     imgs = []
-    for round in range(21):
-        ls.derive(round)
+    for round in range(10):
+        integ.round = round
+        integ.draw(initialize=True)
 
-        artist.move_kame(ls.pop_state())
+        imgs.append(integ.get_image())
 
-        kame.draw()
-        imgs.append(kame.pop_image())
-    connect(imgs).save("pictures/imgmat1.png")
+    connect_vert(imgs).save("pictures/imgmat1.png")
 
 def main_iter():
     drawing_data = pattern1
@@ -70,25 +69,5 @@ def main_iter():
     connect_mat(imgs).save("pictures/imgmat1.png")
 
 
-def connect(ims):
-    dst = Image.new("RGB",(sum([im.width for im in ims]),ims[0].height))
-    dst.paste(ims[0],(0,0))
-    for i,im in enumerate(ims[1:]):
-        dst.paste(im,(sum([im2.width for im2 in ims[:i+1]]),0))
-
-    return dst
-
-def connect_vert(ims):
-    dst = Image.new("RGB", (ims[0].width,sum([im.height for im in ims])))
-    dst.paste(ims[0], (0, 0))
-    for i, im in enumerate(ims[1:]):
-        dst.paste(im, (0, sum([im2.height for im2 in ims[:i + 1]])))
-
-    return dst
-
-def connect_mat(ims):
-    return connect_vert([connect(ims_line) for ims_line in ims])
-
-
 if __name__ == '__main__':
-    main2()
+    main()

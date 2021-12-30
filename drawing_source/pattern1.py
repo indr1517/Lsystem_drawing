@@ -1,15 +1,17 @@
+import math
+
 Omega = "a"
 
 P = {
-    "a": "b",
+    "a": "lararal",
     "b": "ab"
 }
 
 DrawFuncs = {
-    "a": "f500",
-    "b": "r30" ,
-    "r": "r108",
-    "l": "l72",
+    "a": ("f",500),
+    "b": ("r",30) ,
+    "r": ("r",108),
+    "l": ("l",72),
 }
 
 Round = 6

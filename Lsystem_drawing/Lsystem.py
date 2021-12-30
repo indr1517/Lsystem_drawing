@@ -18,7 +18,5 @@ class Lsystem:
         self.P[k] = v
         self.production = str.maketrans(self.P)
 
-    def pop_state(self):
-        a = self.state
-        self.state = self.Omega
-        return a
+    def get_state(self):
+        return self.state
